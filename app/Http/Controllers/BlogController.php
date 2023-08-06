@@ -25,5 +25,26 @@ class BlogController extends Controller
         $blog->delete();
     }
 
+    public function index(Request $request)
+    {
+        $perPage = $request->input('perPage', 10);
+        $sortBy = $request->input('sortBy', 'created_at');
+        $sortDirection = $request->input('sortDirection', 'desc');
+
+        // Ограничим возможные поля для сортировки
+        if (!in_array($sortBy, ['created_at', 'name'])) {
+            $sortBy = 'created_at';
+        }
+
+        // Ограничим возможные направления сортировки
+        if (!in_array($sortDirection, ['asc', 'desc'])) {
+            $sortDirection = 'desc';
+        }
+
+        $blogs = Blog::orderBy($sortBy, $sortDirection)->paginate($perPage);
+        return response()->json($blogs);
+    }
+
+
 
 }

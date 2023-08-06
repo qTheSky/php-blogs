@@ -33,6 +33,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('blogs', 'App\Http\Controllers\BlogController@create');
     Route::delete('blogs/{blog}', 'App\Http\Controllers\BlogController@destroy')->middleware('can:delete,blog');
 });
+Route::get('blogs', 'App\Http\Controllers\BlogController@index');
+
 Route::middleware('auth:api')->group(function () {
     Route::post('blogs/{blog}/posts', 'App\Http\Controllers\PostController@create');
     Route::delete('blogs/{blog}/posts/{post}', 'App\Http\Controllers\PostController@destroy');
